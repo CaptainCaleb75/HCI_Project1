@@ -106,6 +106,7 @@ f_login.addEventListener('submit', (e) => {
         if(!conditions[i]) success = false;
     }
     if(success){
+        e.preventDefault();
         window.location.href = "success.html";
     } else {
         e.preventDefault();
