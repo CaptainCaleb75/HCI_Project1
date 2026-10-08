@@ -1,0 +1,29 @@
+.f_req_div{
+    display:inline-flex;
+    justify-content: center;
+    align-items: left;
+    flex-direction: column;
+    margin-left: 10px;
+}
+
+.f_req_header{
+    display: inline-block;
+}
+
+.f_req{
+    display: flex;
+    flex-direction: column;
+}
+
+.f_req_email{
+    display: inline-flex;
+    margin-left: 35px;
+    justify-content: center;
+    align-items: left;
+}
+
+#f_err{
+    color: red; 
+    display: inline; 
+    margin-left: 5px;
+}
