@@ -1,0 +1,27 @@
+<html>
+    <head>
+        <title>GR 5 - Error Handling</title>
+        <link rel="stylesheet" href="gr5.css">
+    </head>
+    <body>
+        <h1>Please Sign Up!</h1>
+        <form id="f_login">
+            <b>Email: </b><input type="email" id="form_email"/>
+            <p class="f_req f_req_email" id="valid_email">Must be a valid email address (i.e. example@example.com) </p>
+            <br />
+            <b>Password: </b><input type="password" id="form_pass"/>
+            <div class="f_req_div">
+                <b class="f_req_header">Password Requirements: </b>
+                <p class="f_req" id="16_char">Must have 16 characters </p>
+                <p class="f_req" id="spec_char">Must have at least one special character (i.e. @, $, %, .) </p>
+                <p class="f_req" id="upper_case">Must have at least one capital letter </p>
+                <p class="f_req" id="lower_case">Must have at least one lowercase letter </p>
+                <p class="f_req" id="1_num">Must have one number </p>
+                <br /> 
+            </div>
+            <br />
+            <button type="submit" id="f_submit">Sign Up</button><p id="f_err"></p>
+
+            <script src="form_handling.js"></script>
+    </body>
+</html>
