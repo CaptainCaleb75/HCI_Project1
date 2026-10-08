@@ -1,15 +1,18 @@
 <html>
     <head>
         <title>GR 4 - Dialogue</title>
+        <link rel="stylesheet" href="gr4.css">
     </head>
     <body>
         <h1>Mystery Boxes</h1>
-        Choose the correct mystery box!
-        <br /><br />
+        <p id="instruction">Choose the correct mystery box!</p>
+        <br />
         <div id="dialogue"></div>
-        <a class="mystery-link"><button class="mystery" id="mystery-1">Box 1</button></a>
-        <a class="mystery-link"><button class="mystery" id="mystery-2">Box 2</button></a>
-        <a class="mystery-link"><button class="mystery" id="mystery-3">Box 3</button></a>
-        <a class="mystery-link"><button class="mystery" id="mystery-4">Box 4</button></a>
+        <a class="mystery-link"><button class="mystery" id="m1" onclick="confirm(this)">Box 1</button></a>
+        <a class="mystery-link"><button class="mystery" id="m2" onclick="confirm(this)">Box 2</button></a>
+        <a class="mystery-link"><button class="mystery" id="m3" onclick="confirm(this)">Box 3</button></a>
+        <a class="mystery-link"><button class="mystery" id="m4" onclick="confirm(this)">Box 4</button></a>
+
+        <script src="randomize.js"></script>
     </body>
 </html>
