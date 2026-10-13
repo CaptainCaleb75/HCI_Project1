@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Consistent vs Inconsistent · Golden Rule 1</title>
+
+    <style>
+        :root {
+            --bg: #eef2f6;
+            --surface: #fff;
+            --ink: #1b2430;
+            --muted: #546172;
+            --line: #cfd8e3;
+            --accent: #0f766e;
+            --accent-dark: #0b5a54;
+            --danger: #b42318;
+            --ok: #067647;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--ink);
+            font: 16px/1.55 sans-serif;
+        }
+
+        [hidden] { display: none !important; }
+
+        /* ---------- Normal navbar and layout ---------- */
+        .nav {
+            background: var(--ink);
+            padding: 0.75rem 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.45rem 1rem;
+            border: 2px solid #fff;
+            border-radius: 6px;
+        }
+
+        .nav a:hover { background: #fff; color: var(--ink); }
+        .nav span { color: #b8c4d3; font-size: 0.95rem; }
+
+        main {
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 2.5rem 1.25rem 4rem;
+        }
+
+        h1 { font: 700 2.1rem/1.2 serif; margin: 0 0 0.5rem; }
+        .lede { color: var(--muted); margin: 0 0 2rem; }
+
+        .row { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+
+        /* One button style, used everywhere on the consistent pages */
+        button {
+            font: inherit;
+            font-weight: 600;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            border: 2px solid var(--accent);
+            background: var(--accent);
+            color: #fff;
+            cursor: pointer;
+        }
+
+        button:hover { background: var(--accent-dark); border-color: var(--accent-dark); }
+        button.yes { background: var(--ok); border-color: var(--ok); }
+        button.no { background: var(--danger); border-color: var(--danger); }
+        button.ghost { background: transparent; color: var(--accent); }
+
+        :focus-visible { outline: 3px solid #f2b705; outline-offset: 2px; }
+
+        .result { margin-top: 1.5rem; color: var(--muted); }
+
+        /* ---------- Chaotic page (Very fun to make btw) ---------- */
+        #chaos {
+            background: #fff176;
+            min-height: 100vh;
+            padding-bottom: 3rem;
+        }
+
+        .chaos-nav {
+            background: #ff4081;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+        }
+
+        .chaos-nav a, .chaos-nav button {
+            text-decoration: underline;
+            color: #00e5ff;
+            cursor: pointer;
+        }
+
+        .chaos-nav a:nth-child(1) { font: 700 2.2rem Impact, sans-serif; }
+        .chaos-nav a:nth-child(2) { font: italic 0.7rem "Times New Roman", serif; color: #1b5e20; }
+        .chaos-nav button {
+            background: #7c4dff;
+            border: 4px dotted #ffeb3b;
+            border-radius: 30px;
+            font: 1.1rem "Courier New", monospace;
+            padding: 0.2rem 1.6rem;
+        }
+
+        .chaos-body { padding: 1.5rem; }
+
+        .chaos-body h1 {
+            font: 900 3.4rem Impact, sans-serif;
+            color: #d500f9;
+            text-align: right;
+            transform: rotate(-3deg);
+        }
+
+        .chaos-body p {
+            font: 1.5rem "Comic Sans MS", cursive;
+            color: #2e7d32;
+            text-align: center;
+            margin: 0 0 1rem 3rem;
+        }
+
+        .chaos-question {
+            font: 700 0.8rem "Courier New", monospace;
+            color: #ff6f00;
+            text-align: left;
+            margin-bottom: 0.5rem;
+        }
+
+        /* The stage lets the No button jump around */
+        .chaos-stage { position: relative; height: 260px; }
+        .chaos-stage button { position: absolute; }
+
+        #chaos-yes {
+            left: 0;
+            top: 0;
+            background: #d50000;
+            border: 6px double #7f0000;
+            font: 700 2rem Impact, sans-serif;
+            padding: 1.2rem 3rem;
+            border-radius: 40px;
+        }
+
+        #chaos-no {
+            background: #00c853;
+            border: 1px solid #00c853;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 0;
+            transition: left 0.3s, top 0.3s;
+        }
+
+        #chaos .result { font: italic 1.1rem Georgia, serif; color: #4a148c; text-align: right; }
+    </style>
+</head>
+
+<body>
+
+    <!-- Screen 1: start -->
+    <section id="start">
+        <nav class="nav" aria-label="Main">
+            <a href="index.html">Home</a>
+            <span>Golden Rule 1: Strive for consistency</span>
+        </nav>
+        <main>
+            <h1>Consistent or Inconsistent?</h1>
+            <p class="lede">Pick a version of the same page and see how it feels to use.</p>
+            <div class="row">
+                <button type="button" data-go="consistent">Consistent</button>
+                <button type="button" data-go="chaos">Inconsistent</button>
+            </div>
+        </main>
+    </section>
+
+    <!-- Screen 2: the consistent version -->
+    <section id="consistent" hidden>
+        <nav class="nav" aria-label="Main">
+            <a href="index.html">Home</a>
+            <span>Golden Rule 1: Strive for consistency</span>
+        </nav>
+        <main>
+            <h1>Do you like it?</h1>
+            <p class="lede">Same navbar, same fonts, same button size and shape. Green means yes and red means no, just like you'd expect.</p>
+            <div class="row">
+                <button type="button" class="yes">Yes</button>
+                <button type="button" class="no">No</button>
+                <button type="button" class="ghost" data-go="start">Back</button>
+            </div>
+            <p class="result" role="status"></p>
+        </main>
+    </section>
+
+    <!-- Screen 3: the inconsistent version -->
+    <section id="chaos" hidden>
+        <nav class="chaos-nav" aria-label="Main">
+            <a href="index.html">Home</a>
+            <a href="#" data-go="start">go back?</a>
+            <button type="button" data-go="start">Back</button>
+        </nav>
+        <div class="chaos-body">
+            <h1>Do you like it?</h1>
+            <p>Different fonts, colors, sizes, and spacing on every element.</p>
+            <div class="chaos-question">choose one:</div>
+            <div class="chaos-stage">
+                <button type="button" id="chaos-yes">Yes</button>
+                <button type="button" id="chaos-no">No</button>
+            </div>
+            <p class="result" role="status"></p>
+        </div>
+    </section>
+
+    <script>
+        const screens = ['start', 'consistent', 'chaos'];
+
+        const messages = {
+            consistent: 'Easy, right? Nothing surprised you, so you didn\u2019t have to think.',
+            chaos: 'Confusing? Yes is huge and red, No is tiny and green, and No keeps running away. When size, color, and position keep changing, you can\u2019t predict what anything will do.'
+        };
+
+        // Show one screen and hide the others
+        function showScreen(name) {
+            screens.forEach((id) => {
+                document.getElementById(id).hidden = (id !== name);
+            });
+            document.querySelectorAll('.result').forEach((el) => el.textContent = '');
+            resetNoButton();
+            window.scrollTo(0, 0);
+        }
+
+        // Any element with data-go="..." switches screens
+        document.querySelectorAll('[data-go]').forEach((el) => {
+            el.addEventListener('click', (event) => {
+                event.preventDefault();
+                showScreen(el.dataset.go);
+            });
+        });
+
+        // Yes / No buttons just show a short message
+        document.querySelectorAll('#consistent .yes, #consistent .no').forEach((button) => {
+            button.addEventListener('click', () => {
+                document.querySelector('#consistent .result').textContent = messages.consistent;
+            });
+        });
+
+        // ---------- The No button on the inconsistent page ----------
+
+        const chaosResult = document.querySelector('#chaos .result');
+        const noButton = document.getElementById('chaos-no');
+
+        // Where the No button sits at the start, then after each of its three jumps
+        const noSpots = [
+            { left: '62%', top: '20px' },
+            { left: '5%',  top: '180px' },
+            { left: '70%', top: '210px' },
+            { left: '38%', top: '140px' }
+        ];
+
+        const noPrompts = ['Really?', 'Why not?'];
+        let noClicks = 0;
+
+        function placeNoButton() {
+            noButton.style.left = noSpots[noClicks].left;
+            noButton.style.top = noSpots[noClicks].top;
+        }
+
+        function resetNoButton() {
+            noClicks = 0;
+            placeNoButton();
+        }
+
+        // Clicks 1 and 2 jump and ask a question. Click 3 jumps and explains.
+        noButton.addEventListener('click', () => {
+            if (noClicks < noSpots.length - 1) {
+                noClicks++;
+                placeNoButton();
+            }
+
+            if (noClicks <= noPrompts.length) {
+                chaosResult.textContent = noPrompts[noClicks - 1];
+            } else {
+                chaosResult.textContent = messages.chaos;
+            }
+        });
+
+        document.getElementById('chaos-yes').addEventListener('click', () => {
+            chaosResult.textContent = messages.chaos;
+        });
+
+        resetNoButton();
+    </script>
+</body>
+</html>
