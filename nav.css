@@ -1,0 +1,29 @@
+.nav, .nav-div {
+    display:inline-block;  
+}
+
+.nav-button {
+    margin-left: 6px;
+    margin-right: 6px;
+}
+
+.nav-div{
+    display: flex;
+    flex-wrap: wrap;
+    width:100%;
+    border: solid;
+    border-radius: 2px;
+    border-color: black;
+    align-items: center;
+    justify-content: center;
+    background-color: cornflowerblue;
+}
+
+.nav-header-container {
+    margin-left: 10px;
+    margin-right: auto;
+}
+
+.nav-home {
+    color: black;
+}
