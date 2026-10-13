@@ -1,3 +1,5 @@
+// FOR GOLDEN RULE 5 - ERROR HANDLING
+
 const form_reqs = document.getElementsByClassName("f_req");
 const email_field = document.getElementById("form_email");
 const pass_field = document.getElementById("form_pass");
