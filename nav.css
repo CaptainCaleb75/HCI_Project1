@@ -1,4 +1,4 @@
-.nav, .nav-div {
+.navbar, .nav-div {
     display:inline-block;  
 }
 
@@ -17,6 +17,7 @@
     align-items: center;
     justify-content: center;
     background-color: cornflowerblue;
+    margin-top: 0;
 }
 
 .nav-header-container {
