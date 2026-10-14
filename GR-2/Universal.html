@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Accessibility Scavenger Hunt · Golden Rule 2</title>
+
+    <style>
+        :root {
+            --bg: #eef2f6;
+            --surface: #fff;
+            --ink: #1b2430;
+            --muted: #546172;
+            --line: #cfd8e3;
+            --accent: #0f766e;
+            --accent-dark: #0b5a54;
+            --danger: #b42318;
+            --ok: #067647;
+            --ok-bg: #e7f6ee;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--ink);
+            font: 16px/1.55 sans-serif;
+        }
+
+        [hidden] { display: none !important; }
+
+        :focus-visible { outline: 3px solid #f2b705; outline-offset: 2px; }
+
+        /* ---------- Navbar and layout (same as the Rule 1 page) ---------- */
+        .nav {
+            background: var(--ink);
+            padding: 0.75rem 1.25rem;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.45rem 1rem;
+            border: 2px solid #fff;
+            border-radius: 6px;
+        }
+
+        .nav a:hover { background: #fff; color: var(--ink); }
+        .nav span { color: #b8c4d3; font-size: 0.95rem; }
+
+        main {
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 2.5rem 1.25rem 4rem;
+        }
+
+        h1 { font: 700 2.1rem/1.2 serif; margin: 0 0 0.5rem; }
+        .lede { color: var(--muted); margin: 0 0 2rem; max-width: 60ch; }
+
+        .panel {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 1.5rem;
+        }
+
+        .note { margin-top: 2rem; font-size: 0.92rem; color: var(--muted); max-width: 60ch; }
+
+        /* ---------- Buttons and inputs ---------- */
+        button {
+            font: inherit;
+            font-weight: 600;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            border: 2px solid var(--accent);
+            background: var(--accent);
+            color: #fff;
+            cursor: pointer;
+        }
+
+        button:hover { background: var(--accent-dark); border-color: var(--accent-dark); }
+        button.ghost { background: transparent; color: var(--accent); }
+        button.ghost:hover { background: #e6f4f2; color: var(--accent-dark); }
+        button[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
+
+        input {
+            font: inherit;
+            padding: 0.6rem 0.8rem;
+            border: 2px solid var(--line);
+            border-radius: 6px;
+            width: 9rem;
+        }
+
+        .row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; margin-top: 1rem; }
+
+        /* ---------- Status and messages ---------- */
+        .status { font-weight: 600; margin: 0 0 0.25rem; }
+        .task { margin: 0 0 1.25rem; }
+
+        .message {
+            margin: 1.25rem 0 0;
+            min-height: 3.2rem;
+            padding: 0.7rem 0.9rem;
+            border-radius: 6px;
+            background: #f1f5f9;
+            color: var(--muted);
+        }
+
+        .message.good { background: var(--ok-bg); color: var(--ink); border-left: 4px solid var(--ok); }
+        .message.bad { background: #fdecea; color: var(--ink); border-left: 4px solid var(--danger); }
+
+        /* ---------- Round 1: squares with tooltips ---------- */
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; padding-top: 3rem; }
+        .square-wrap { position: relative; }
+
+        .square {
+            width: 100%;
+            aspect-ratio: 1;
+            font-size: 2rem;
+            background: #f8fafc;
+            color: var(--ink);
+            border: 2px solid var(--line);
+        }
+
+        .square:hover { background: #e6f4f2; border-color: var(--accent); }
+        .square.right { background: var(--ok-bg); border-color: var(--ok); color: var(--ok); }
+        .square.wrong { background: #fdecea; border-color: var(--danger); color: var(--danger); }
+
+        /* The tooltip shows on mouse hover and on keyboard focus */
+        .tooltip {
+            position: absolute;
+            bottom: 105%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 11rem;
+            padding: 0.5rem 0.7rem;
+            border-radius: 6px;
+            background: var(--ink);
+            color: #fff;
+            font-size: 0.85rem;
+            line-height: 1.3;
+            text-align: center;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .square-wrap:hover .tooltip,
+        .square:focus + .tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* ---------- Round 2: hard-to-read clue ---------- */
+        .clue-box { padding: 1rem; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+
+        /* Tiny and very faint on purpose */
+        #clue { margin: 0; font-size: 9px; color: #dde2e8; }
+        #clue.large { font-size: 2rem; }
+        #clue.contrast { color: #000; }
+
+        /* ---------- Round 3: vault door ---------- */
+        .door {
+            padding: 1.5rem;
+            text-align: center;
+            font-size: 1.4rem;
+            font-weight: 600;
+            border: 2px solid var(--line);
+            border-radius: 8px;
+            background: #f8fafc;
+        }
+
+        .door.open { background: var(--ok-bg); border-color: var(--ok); }
+        .shortcuts { margin: 1rem 0 0; padding: 0.75rem 1rem; border-radius: 6px; background: #f1f5f9; }
+        kbd { padding: 0.1rem 0.45rem; border: 1px solid var(--muted); border-radius: 4px; background: #fff; font-family: monospace; }
+    </style>
+</head>
+
+<body>
+    <nav class="nav" aria-label="Main">
+        <a href="../index.html">Home</a>
+        <span>Golden Rule 2: Seek universal usability</span>
+    </nav>
+
+    <main>
+        <h1>Accessibility Scavenger Hunt</h1>
+        <p class="lede">
+            Win each round by using a feature that makes the app easier for someone to use.
+            Three rounds, three features.
+        </p>
+
+        <section class="panel" aria-label="Game">
+
+            <div id="game">
+                <p class="status" id="round-label"></p>
+                <p class="task" id="task"></p>
+
+                <!-- Round 1: tooltips -->
+                <div id="round-1" hidden>
+                    <div class="grid" id="grid"></div>
+                </div>
+
+                <!-- Round 2: text size and contrast -->
+                <div id="round-2" hidden>
+                    <div class="clue-box">
+                        <p id="clue"></p>
+                    </div>
+                    <div class="row">
+                        <button type="button" id="large-button" class="ghost" aria-pressed="false">Larger text</button>
+                        <button type="button" id="contrast-button" class="ghost" aria-pressed="false">High contrast</button>
+                    </div>
+                    <form class="row" id="code-form">
+                        <label for="code-input">Vault code:</label>
+                        <input type="text" id="code-input" inputmode="numeric" autocomplete="off" maxlength="4">
+                        <button type="submit">Unlock</button>
+                    </form>
+                </div>
+
+                <!-- Round 3: buttons and keyboard shortcuts -->
+                <div id="round-3" hidden>
+                    <div class="door" id="door">🔒 The vault door is locked</div>
+                    <div class="row">
+                        <button type="button" id="open-button">Open door</button>
+                        <button type="button" id="shortcuts-button" class="ghost" aria-expanded="false">Show shortcuts</button>
+                    </div>
+                    <div class="shortcuts" id="shortcuts" hidden>
+                        <kbd>O</kbd> open the door<br>
+                        <kbd>?</kbd> show or hide this list
+                    </div>
+                </div>
+
+                <p class="message" id="message" role="status" aria-live="polite"></p>
+                <div class="row"><button type="button" id="next-button" hidden>Next round</button></div>
+            </div>
+
+            <div id="results" hidden>
+                <h2 style="margin: 0 0 0.5rem;">You found all three!</h2>
+                <ul>
+                    <li><strong>Tooltips:</strong> give newcomers help right where they need it, with mouse or keyboard.</li>
+                    <li><strong>Text size and contrast:</strong> let people with low vision read what others take for granted.</li>
+                    <li><strong>Buttons plus shortcuts:</strong> beginners get clear buttons while experts get speed.</li>
+                </ul>
+                <div class="row"><button type="button" id="again-button">Play again</button></div>
+            </div>
+        </section>
+
+        <p class="note">
+            What to notice: no round needs a special skill. Every feature has a second way to do the same thing,
+            so the app works for more people. Try the whole page with only the Tab and Enter keys.
+        </p>
+    </main>
+
+    <script>
+        // ---------- Game data ----------
+
+        const TASKS = [
+            'Round 1: one square is safe and the rest are traps. Hover over a square, or Tab to it, to read its tooltip.',
+            'Round 2: the vault code is written below, but it is tiny and faint. Use the settings to read it, then enter it.',
+            'Round 3: open the vault door. Use whichever way works best for you.'
+        ];
+
+        const SAFE_HINT = 'Winner Winner.';
+        const TRAP_HINTS = [
+            'Nope.',
+            'Nuh uh.',
+            'Nada.',
+            'Yeaaaaaahhhhh no.',
+            'Not Here.'
+        ];
+
+        // ---------- State ----------
+
+        let roundIndex = 0;
+        let roundDone = false;
+        let secretCode = '';
+        let squaresPicked = 0;
+
+        // ---------- Page elements ----------
+
+        const gameScreen = document.getElementById('game');
+        const resultsScreen = document.getElementById('results');
+        const roundLabel = document.getElementById('round-label');
+        const taskText = document.getElementById('task');
+        const message = document.getElementById('message');
+        const nextButton = document.getElementById('next-button');
+        const rounds = [
+            document.getElementById('round-1'),
+            document.getElementById('round-2'),
+            document.getElementById('round-3')
+        ];
+
+        const grid = document.getElementById('grid');
+        const clue = document.getElementById('clue');
+        const largeButton = document.getElementById('large-button');
+        const contrastButton = document.getElementById('contrast-button');
+        const codeForm = document.getElementById('code-form');
+        const codeInput = document.getElementById('code-input');
+        const door = document.getElementById('door');
+        const openButton = document.getElementById('open-button');
+        const shortcutsButton = document.getElementById('shortcuts-button');
+        const shortcutsList = document.getElementById('shortcuts');
+
+        // ---------- Shared helpers ----------
+
+        function showMessage(text, type) {
+            message.textContent = text;
+            message.className = type ? 'message ' + type : 'message';
+        }
+
+        function winRound(text) {
+            roundDone = true;
+            showMessage(text, 'good');
+            nextButton.textContent = roundIndex === rounds.length - 1 ? 'See results' : 'Next round';
+            nextButton.hidden = false;
+            nextButton.focus();
+        }
+
+        // ---------- Round 1: tooltips ----------
+
+        function setupRound1() {
+            const safeIndex = Math.floor(Math.random() * 6);
+            const traps = TRAP_HINTS.slice().sort(() => Math.random() - 0.5);
+            squaresPicked = 0;
+            grid.innerHTML = '';
+
+            for (let i = 0; i < 6; i++) {
+                const isSafe = (i === safeIndex);
+                const wrap = document.createElement('div');
+                wrap.className = 'square-wrap';
+
+                const square = document.createElement('button');
+                square.type = 'button';
+                square.className = 'square';
+                square.textContent = '?';
+                square.setAttribute('aria-label', 'Square ' + (i + 1));
+                square.setAttribute('aria-describedby', 'tip-' + i);
+
+                const tooltip = document.createElement('span');
+                tooltip.className = 'tooltip';
+                tooltip.id = 'tip-' + i;
+                tooltip.setAttribute('role', 'tooltip');
+                tooltip.textContent = isSafe ? SAFE_HINT : traps.pop();
+
+                square.addEventListener('click', () => pickSquare(square, isSafe, tooltip.textContent));
+                wrap.append(square, tooltip);
+                grid.append(wrap);
+            }
+        }
+
+        function pickSquare(square, isSafe, hint) {
+            if (roundDone) return;
+            squaresPicked++;
+
+            // Use a symbol as well as color so the result is clear to everyone
+            square.textContent = isSafe ? '✔' : '✖';
+            square.classList.add(isSafe ? 'right' : 'wrong');
+
+            if (isSafe) {
+                winRound('Safe! The tooltips told you what each square was before you chose. Tooltips are help for people who are new to an interface.');
+            } else {
+                showMessage('Oops. ' + hint + ' Read the tooltips first and try again.', 'bad');
+            }
+        }
+
+        // ---------- Round 2: text size and contrast ----------
+
+        function setupRound2() {
+            secretCode = String(1000 + Math.floor(Math.random() * 9000));
+            clue.textContent = 'The vault code is ' + secretCode + '.';
+            clue.className = '';
+            codeInput.value = '';
+
+            [largeButton, contrastButton].forEach((button) => button.setAttribute('aria-pressed', 'false'));
+        }
+
+        function toggleSetting(button, className) {
+            const isOn = button.getAttribute('aria-pressed') === 'true';
+            button.setAttribute('aria-pressed', String(!isOn));
+            clue.classList.toggle(className, !isOn);
+        }
+
+        largeButton.addEventListener('click', () => toggleSetting(largeButton, 'large'));
+        contrastButton.addEventListener('click', () => toggleSetting(contrastButton, 'contrast'));
+
+        codeForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            if (roundDone) return;
+
+            if (codeInput.value.trim() === secretCode) {
+                winRound('Unlocked! Bigger text and stronger contrast made the clue readable. These settings help people with low vision, and anyone in bad lighting.');
+            } else {
+                showMessage('That code doesn\u2019t match. Try the text size and contrast buttons if the clue is hard to read.', 'bad');
+            }
+        });
+
+        // ---------- Round 3: buttons and shortcuts ----------
+
+        function setupRound3() {
+            door.className = 'door';
+            door.textContent = '🔒 The vault door is locked';
+            shortcutsList.hidden = true;
+            shortcutsButton.textContent = 'Show shortcuts';
+            shortcutsButton.setAttribute('aria-expanded', 'false');
+        }
+
+        function toggleShortcuts() {
+            shortcutsList.hidden = !shortcutsList.hidden;
+            shortcutsButton.textContent = shortcutsList.hidden ? 'Show shortcuts' : 'Hide shortcuts';
+            shortcutsButton.setAttribute('aria-expanded', String(!shortcutsList.hidden));
+        }
+
+        function openDoor(method) {
+            if (roundDone) return;
+            door.className = 'door open';
+            door.textContent = '🔓 The vault door is open';
+
+            if (method === 'key') {
+                winRound('You used the keyboard shortcut. Experts get a fast path.');
+            } else {
+                winRound('You used the button. Beginners get a clear, visible path. Both ways work, so nobody is left out.');
+            }
+        }
+
+        openButton.addEventListener('click', () => openDoor('button'));
+        shortcutsButton.addEventListener('click', toggleShortcuts);
+
+        document.addEventListener('keydown', (event) => {
+            if (roundIndex !== 2 || roundDone) return;
+
+            if (event.key === '?') {
+                toggleShortcuts();
+            } else if (event.key.toLowerCase() === 'o') {
+                openDoor('key');
+            }
+        });
+
+        // ---------- Game flow ----------
+
+        function showRound() {
+            roundDone = false;
+            rounds.forEach((round, i) => round.hidden = (i !== roundIndex));
+            roundLabel.textContent = 'Round ' + (roundIndex + 1) + ' of ' + rounds.length;
+            taskText.textContent = TASKS[roundIndex];
+            nextButton.hidden = true;
+            showMessage('Find the feature that helps, then use it to win.');
+
+            if (roundIndex === 0) setupRound1();
+            if (roundIndex === 1) setupRound2();
+            if (roundIndex === 2) setupRound3();
+        }
+
+        function startGame() {
+            roundIndex = 0;
+            gameScreen.hidden = false;
+            resultsScreen.hidden = true;
+            showRound();
+        }
+
+        nextButton.addEventListener('click', () => {
+            if (roundIndex === rounds.length - 1) {
+                gameScreen.hidden = true;
+                resultsScreen.hidden = false;
+                document.getElementById('again-button').focus();
+            } else {
+                roundIndex++;
+                showRound();
+            }
+        });
+
+        document.getElementById('again-button').addEventListener('click', startGame);
+
+        startGame();
+    </script>
+</body>
+</html>
