@@ -12,7 +12,7 @@ Refer to "Reports.pdf" for accompanying reports. You can access and run the proj
 2. Extract the ZIP file and open the project folder in [Visual Studio Code](https://code.visualstudio.com/).
 3. Install the **Live Server** extension if you have not already done so.
 4. Open `index.html` in VS Code.
-5. Click **Go Live** in the bottom-right corner of VS Code to launch the project in your browser.
+5. Click **Go Live** in the bottom-right corner of VS Code to launch the project in your browser (or right click `index.html` and click **Open with Live Server**).
 
 ## Contributions of Each Group Member
 
