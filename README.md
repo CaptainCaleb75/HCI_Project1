@@ -30,7 +30,7 @@ We divided the project by assigning each group member two HCI Golden Rules to im
 - Created the landing page linking to all other project pages.
 - Combined the individual reports into a single PDF.
 
-### Nathan Booth
+### Nate Booth
 
 - Designed pages for the following HCI Golden Rules:
   - Error Handling
