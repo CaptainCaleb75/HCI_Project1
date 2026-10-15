@@ -1,4 +1,4 @@
-fetch('/navbar.html')
+fetch('../navbar.html')
     .then(r => r.text())
     .then(d => {
         const isolation = document.getElementById("navbar-holder").attachShadow({mode: 'open'});
