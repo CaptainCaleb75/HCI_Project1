@@ -4,7 +4,7 @@
 
 ## How to Use
 
-You can access and run the project using either of the following methods:
+Refer to "Reports.pdf" for accompanying reports. You can access and run the project using either of the following methods:
 
 ### Option 1: GitHub Pages
 
