@@ -1,18 +1,14 @@
 # HCI Project 1
 
-**Group Members:** Caleb Magill, Nathan Booth, Anthony Cruz, and Zachary Beatty
+**Group Members:** Caleb Magill, Nate Booth, Anthony Cruz, and Zachary Beatty
 
 ## How to Use
 
 Refer to "Reports.pdf" for accompanying reports. You can access and run the project using either of the following methods:
 
-### Option 1: GitHub Pages
+### Run Locally on VSCode
 
-Refer to the deployed project [here](*NEED TO UPDATE*).
-
-### Option 2: Run Locally
-
-1. Download the repository as a ZIP file from the [HCI Project 1 GitHub Repository](https://github.com/CaptainCaleb75/HCI_Project1).
+1. Download the repository as a ZIP file from the [HCI Project 1 GitHub Repository](https://github.com/CaptainCaleb75/HCI_Project1) or use the provided ZIP file in the submission (grader).
 2. Extract the ZIP file and open the project folder in [Visual Studio Code](https://code.visualstudio.com/).
 3. Install the **Live Server** extension if you have not already done so.
 4. Open `index.html` in VS Code.
