@@ -72,6 +72,10 @@
 
         .note { margin-top: 2rem; font-size: 0.92rem; color: var(--muted); max-width: 60ch; }
 
+        .navbar_ {
+            all: revert;
+        }
+
         /* ---------- Buttons and inputs ---------- */
         button {
             font: inherit;
@@ -184,8 +188,9 @@
 </head>
 
 <body>
+    <div id="navbar-holder"></div>
     <nav class="nav" aria-label="Main">
-        <a href="../index.html">Home</a>
+        <a href="/index.html">Home</a>
         <span>Golden Rule 2: Seek universal usability</span>
     </nav>
 
@@ -478,5 +483,6 @@
 
         startGame();
     </script>
+    <script src="../insert-nav.js"></script>
 </body>
 </html>

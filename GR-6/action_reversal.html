@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Action Reversal · Shneiderman's 8 Golden Rules</title>
+    <style>
+        :root {
+            --bg: #eef2f6;
+            --surface: #fff;
+            --ink: #1b2430;
+            --muted: #546172;
+            --line: #cfd8e3;
+            --accent: #0f766e;
+            --accent-dark: #0b5a54;
+            --danger: #b42318;
+        }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font: 16px/1.55 sans-serif;
+    }
+
+    .nav {
+        background: var(--ink);
+        padding: .75rem 1.25rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .nav a {
+        color: #fff;
+        text-decoration: none;
+        font-weight: 600;
+        padding: .45rem 1rem;
+        border: 2px solid #fff;
+        border-radius: 6px;
+    }
+
+    .nav a:hover {
+        background: #fff;
+        color: var(--ink);
+    }
+
+    .nav span {
+        color: #b8c4d3;
+        font-size: .95rem;
+    }
+
+    main {
+        max-width: 640px;
+        margin: 0 auto;
+        padding: 2.5rem 1.25rem 4rem;
+    }
+
+    h1 {
+        font: 700 2.1rem/1.2 serif;
+        margin: 0 0 .5rem;
+    }
+
+    .lede {
+        color: var(--muted);
+        margin: 0 0 2rem;
+        max-width: 60ch;
+    }
+
+    .panel {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 1.5rem;
+    }
+
+    .add-row {
+        display: flex;
+        gap: .75rem;
+        flex-wrap: wrap;
+    }
+
+    input[type=text] {
+        flex: 1 1 220px;
+        font: inherit;
+        padding: .6rem .8rem;
+        border: 2px solid var(--line);
+        border-radius: 6px;
+        color: var(--ink);
+    }
+
+    input[type=text]:focus {
+        border-color: var(--accent);
+        outline: none;
+    }
+
+    button {
+        font: inherit;
+        font-weight: 600;
+        padding: .6rem 1.2rem;
+        border-radius: 6px;
+        border: 2px solid var(--accent);
+        background: var(--accent);
+        color: #fff;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: var(--accent-dark);
+        border-color: var(--accent-dark);
+    }
+
+    button.del {
+        background: transparent;
+        color: var(--danger);
+        border-color: var(--danger);
+        padding: .35rem .8rem;
+    }
+
+    button.del:hover {
+        background: #fdecea;
+        border-color: var(--danger);
+    }
+
+    :focus-visible {
+        outline: 3px solid #f2b705;
+        outline-offset: 2px;
+    }
+
+    ul {
+        list-style: none;
+        margin: 1.25rem 0 0;
+        padding: 0;
+    }
+
+    li {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: .75rem 0;
+        border-top: 1px solid var(--line);
+    }
+
+    li span {
+        overflow-wrap: anywhere;
+    }
+
+    .empty {
+        margin: 1.25rem 0 0;
+        color: var(--muted);
+        border-top: 1px solid var(--line);
+        padding-top: 1rem;
+    }
+
+    .note {
+        margin-top: 2rem;
+        font-size: .92rem;
+        color: var(--muted);
+        max-width: 60ch;
+    }
+
+    [hidden] {
+        display: none !important;
+    }
+</style>
+
+</head>
+<body>
+    <div id="navbar-holder"></div>
+    <nav class="nav" aria-label="Main">
+        <a href="/index.html">Home</a>
+        <span>Golden Rule 6: Permit easy reversal of actions</span>
+    </nav>
+
+<main>
+    <h1>Action Reversal</h1>
+    <p class="lede">Mistakes happen, so actions should be easy to take back. Add a few tasks, delete one, and use Undo to bring it back right where it was.</p>
+
+    <section class="panel" aria-label="Task list demo">
+        <div class="add-row">
+            <label for="task" class="sr" style="position:absolute;left:-9999px">New task</label>
+            <input type="text" id="task" placeholder="Add a task, such as “Water the plants”" autocomplete="off" maxlength="120">
+            <button type="button" id="add">Add task</button>
+        </div>
+
+        <ul id="list" aria-label="Tasks"></ul>
+        <p class="empty" id="empty">No tasks yet. Type one above and select Add task.</p>
+    </section>
+
+    <p class="note">What to notice: Deleting may not ask for confirmation. It just happens, and a message appears with an Undo button for a few seconds. Undo puts the task back in its original position.</p>
+</main>
+
+<div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+
+<script>
+    (function() {
+        var $ = function(id) {
+            return document.getElementById(id)
+        };
+        var add = $('add'), input = $('task'), list = $('list'), empty = $('empty'), toasts = $('toasts');
+        var tasks = [
+            {id: 1, text: 'Read about the 8 Golden Rules'},
+            {id: 2, text: 'Try deleting me, then undo'}
+        ];
+        var nextId = 3, UNDO_MS = 7000;
+
+        function render() {
+            list.innerHTML = '';
+            tasks.forEach(function(t) {
+                var li = document.createElement('li');
+                var span = document.createElement('span');
+                span.textContent = t.text;
+                var btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'del';
+                btn.textContent = 'Delete';
+                btn.setAttribute('aria-label', 'Delete task: ' + t.text);
+                btn.addEventListener('click', function() {
+                    removeTask(t.id)
+                });
+                li.appendChild(span);
+                li.appendChild(btn);
+                list.appendChild(li);
+            });
+            empty.hidden = tasks.length > 0;
+        }
+
+        function addTask() {
+            var text = input.value.trim();
+            if (!text) {
+                input.focus();
+                return;
+            }
+            tasks.push({id: nextId++, text: text});
+            input.value = '';
+            render();
+            input.focus();
+        }
+
+        add.addEventListener('click', addTask);
+        input.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') addTask();
+        });
+
+        function removeTask(id) {
+            var i = tasks.findIndex(function(t) {
+                return t.id === id
+            });
+            if (i < 0) return;
+            var removed = tasks.splice(i, 1)[0];
+            render();
+            showToast(removed, i);
+
+            // keep keyboard focus inside the list
+            var next = list.querySelectorAll('button.del')[Math.min(i, tasks.length - 1)];
+            (next || input).focus();
+        }
+
+        function showToast(task, index) {
+            var el = document.createElement('div');
+            el.className = 'toast';
+            var p = document.createElement('p');
+            p.textContent = 'Deleted “' + task.text + '”.';
+            var undo = document.createElement('button');
+            undo.type = 'button';
+            undo.textContent = 'Undo';
+            el.appendChild(p);
+            el.appendChild(undo);
+            toasts.appendChild(el);
+
+            var timer = setTimeout(function() {
+                el.remove()
+            }, UNDO_MS);
+
+            undo.addEventListener('click', function() {
+                clearTimeout(timer);
+                tasks.splice(Math.min(index, tasks.length), 0, task);
+                el.remove();
+                render();
+                toasts.setAttribute('data-last', 'restored');
+                showRestored(task);
+            });
+        }
+
+        function showRestored(task) {
+            var el = document.createElement('div');
+            el.className = 'toast';
+            var p = document.createElement('p');
+            p.textContent = 'Restored “' + task.text + '”.';
+            el.appendChild(p);
+            toasts.appendChild(el);
+            setTimeout(function() {
+                el.remove()
+            }, 2500);
+        }
+
+        render();
+    })();
+</script>
+<script src="../insert-nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internal Locus of Control</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: white;
+            color: blue;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        h1 {
+            font-size: 48px;
+        }
+        .panel {
+            max-width: 400;
+            margin: 30px auto;
+            padding: 25px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px #ccc;
+        }
+        button, .button {
+            display: inline-block;
+            padding: 12px 20px;
+            margin: 8px;
+            border: none;
+            border-radius: 6px;
+            background: blue;
+            color: white;
+            font-size: 16px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .button:hover {
+            background: blue;
+        }
+        .choice {
+            position: absolute;
+            opacity: 0;
+        }
+        #light:checked ~ .panel {
+            background: white;
+            color: blue;
+        }
+        #dark:checked ~ .panel {
+            background: gray;
+            color: white;
+        }
+        #dark:checked ~ .panel .button {
+            background: navy;
+        }
+        .content {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 6px;
+            background: white;
+            color: blue;
+        }
+        #option1:checked ~ .panel .content1,
+        #option2:checked ~ .panel .content2 {
+            display: block;
+        }
+        .theme-label {
+            display: inline-block;
+            padding: 10px 15px;
+            margin: 5px;
+            border: 1px solid blue;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .choice:checked + .theme-label {
+            background: blue;
+            color: white;
+        }
+        .footer-text{
+            position: fixed;
+            color: black;
+            bottom: 0;
+            left: 10px; 
+        }
+    </style>
+</head>
+
+<body>
+    <div id="navbar-holder"></div>
+    <h1>Supporting the Internal Locus of Control:</h1>
+    <p>Choose which color profile you'd like to view the below content with:</p>
+
+    <!-- Theme controls -->
+    <input class="choice" type="radio" name="theme"
+           id="light" checked> <!--the default option...-->
+    <label class="theme-label" for="light">Light Theme</label>
+
+    <input class="choice" type="radio" name="theme"
+           id="dark">
+    <label class="theme-label" for="dark">Dark Theme</label>
+
+    <!-- Content controls -->
+    <input class="choice" type="radio" name="content"
+           id="option1" checked>
+    <input class="choice" type="radio" name="content"
+           id="option2">
+
+    <div class="panel">
+        <h2>Choose Language Preference:</h2>
+        <p>Select an option to view its content.</p>
+
+        <label class="button" for="option1">
+            English
+        </label>
+
+        <label class="button" for="option2">
+            Spanish
+        </label>
+
+        <div class="content content1">
+            <h3>English</h3>
+            <p>You selected Option One. You decide what to view.</p>
+        </div>
+
+        <div class="content content2">
+            <h3>Espanol</h3>
+            <p>Ha seleccionado la opción dos. La interfaz responde a su elección.</p>
+        </div>
+    </div>
+
+    <div class="footer-text">
+        <h5>caleb magill</h5>
+    </div>
+    <script src="../insert-nav.js"></script>
+</body>
+</html>

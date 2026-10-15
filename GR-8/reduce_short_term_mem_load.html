@@ -1,0 +1,127 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reduce Short-Term Memory Load</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: white;
+            color: blue;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 48px;
+        }
+        .intro {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .planner {
+            max-width: 550px;
+            margin: auto;
+            padding: 25px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px #ccc;
+        }
+
+        h2 {
+            font-size: 22px;
+            border-bottom: 2px solid white;
+            padding-bottom: 10px;
+        }
+        .task {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 15px 0;
+            border-bottom: 1px solid white;
+        }
+        .task input {
+            width: 20px;
+            height: 20px;
+            margin-top: 3px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .task label {
+            cursor: pointer;
+            line-height: 1.5;
+        }
+        .task input:checked + label {
+            text-decoration: line-through;
+            color: gray;
+        }
+        .reminder {
+            margin-top: 25px;
+            padding: 15px;
+            background: white;
+            border-left: 4px solid blue;
+            border-radius: 4px;
+            line-height: 1.5;
+        }
+        .footer-text{
+            position: fixed;
+            color: black;
+            bottom: 0;
+            left: 10px; 
+        }
+    </style>
+</head>
+
+<body>
+    <div id="navbar-holder"></div>
+    <h1>Supporting the Reduction of Short-Term Memory Load:</h1>
+
+    <p class="intro">
+        Keep track of your tasks without having to remember every step. Toggle which ones you've already completed.
+    </p>
+
+    <div class="planner">
+        <h2>Today's Checklist</h2>
+
+        <div class="task">
+            <input type="checkbox" id="task1">
+            <label for="task1">
+                <strong>1. Review your notes</strong><br>Read through your notes before starting.
+            </label>
+        </div>
+
+        <div class="task">
+            <input type="checkbox" id="task2">
+            <label for="task2">
+                <strong>2. Complete your assignment</strong><br>Work through each question one at a time.
+            </label>
+        </div>
+
+        <div class="task">
+            <input type="checkbox" id="task3">
+            <label for="task3">
+                <strong>3. Check your work</strong><br>Review your answers before submitting.
+            </label>
+        </div>
+
+        <div class="task">
+            <input type="checkbox" id="task4">
+            <label for="task4">
+                <strong>4. Submit your assignment</strong><br>Confirm that your work is ready to submit.
+            </label>
+        </div>
+
+        <div class="reminder">
+            <strong>Helpful reminder</strong><br>
+            Complete each step in order. You can refer to this checklist whenever you need it.
+        </div>
+    </div>
+
+    <div class="footer-text">
+        <h5>caleb magill</h5>
+    </div>
+    <script src="../insert-nav.js"></script>
+</body>
+</html>
