@@ -2,15 +2,69 @@
     <body>
         <div class="nav-div">
             <a href="/HCI_Project1/index.html" class="nav-header-container nav-home"><h1 class="navbar nav-header">8 Golden Rules</h1></a>
-            <a href="/HCI_Project1/GR-1/Consistency.html"><button class="navbar nav-button">Rule 1</button></a>
+            <form method="POST" id="rule_form">
+                <p style="display:inline;">Rule </p>
+                <select name="rule_num" style="display:inline;">
+                    <option value = 1>1</option>
+                    <option value = 2>2</option>
+                    <option value = 3>3</option>
+                    <option value = 4>4</option>
+                    <option value = 5>5</option>
+                    <option value = 6>6</option>
+                    <option value = 7>7</option>
+                    <option value = 8>8</option>
+                </select>
+                <button type="submit" style="display:inline;">Go</button>
+            </form>
+            
+            <!-- <a href="/HCI_Project1/GR-1/Consistency.html"><button class="navbar nav-button">Rule 1</button></a>
             <a href="/HCI_Project1/GR-2/Universal.html"><button class="navbar nav-button">Rule 2</button></a>
             <a href="/HCI_Project1/GR-3/informative_feedback.html"><button class="navbar nav-button">Rule 3</button></a>
             <a href="/HCI_Project1/GR-4/mystery.html"><button class="navbar nav-button">Rule 4</button></a>
             <a href="/HCI_Project1/GR-5/signup.html"><button class="navbar nav-button">Rule 5</button></a>
             <a href="/HCI_Project1/GR-6/action_reversal.html"><button class="navbar nav-button">Rule 6</button></a>
             <a href="/HCI_Project1/GR-7/internal_locus_of_control.html"><button class="navbar nav-button">Rule 7</button></a>
-            <a href="/HCI_Project1/GR-8/reduce_short_term_mem_load.html"><button class="navbar nav-button">Rule 8</button></a>
+            <a href="/HCI_Project1/GR-8/reduce_short_term_mem_load.html"><button class="navbar nav-button">Rule 8</button></a> -->
         </div>
     </body>
+    <script>
+        const form = document.getElementById('rule_form');
+
+        form.addEventListener('submit', function(e){
+            e.preventDefault();
+
+            const f_data = new FormData(e.target);
+            const value = Object.fromEntries(f_data).rule_num;
+            console.log(value);
+            switch(value){
+                case '1':
+                    window.location.href = "/HCI_Project1/GR-1/Consistency.html";
+                    break;
+                case '2':
+                    window.location.href = "/HCI_Project1/GR-2/Universal.html";
+                    break;
+                case '3':
+                    window.location.href = "/HCI_Project1/GR-3/informative_feedback.html";
+                    break;
+                case '4':
+                    window.location.href = "/HCI_Project1/GR-4/mystery.html";
+                    break;
+                case '5':
+                    window.location.href = "/HCI_Project1/GR-5/signup.html";
+                    break;
+                case '6':
+                    window.location.href = "/HCI_Project1/GR-6/action_reversal.html";
+                    break;
+                case '7':
+                    window.location.href = "/HCI_Project1/GR-7/internal_locus_of_control.html";
+                    break;
+                case '8':
+                    window.location.href = "/HCI_Project1/GR-8/reduce_short_term_mem_load.html";
+                    break;
+                default:
+                    console.error("Navbar form error, invalid selection: " + value);
+            }
+        })
+    </script>
 </html>
 
